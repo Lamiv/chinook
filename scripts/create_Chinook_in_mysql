@@ -1,0 +1,4 @@
+Copy the Chinook.sql to /home/nosql/Documents
+Log into mysql using: 'mysql -u root -p'
+Then at the mysql prompt : 'source /home/nosql/Documents/Chinook.sql;'
+This will load the Database into your mysql server
