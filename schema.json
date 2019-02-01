@@ -1,0 +1,150 @@
+{
+"definitions": {
+
+"Artist":{
+		"type": "object",
+		"properties": { 
+			"ArtistID":{ "type": "integer" },
+			"Name":{ "type": "string" },
+		},
+		"required": ["ArtistID", "Name"]
+	},
+
+"Album":{
+		"type": "object",
+		"properties": {
+			"AlbumID":{ "type": "integer" },
+			"Title":{ "type": "string" },
+			"Artist":{ "$ref": "#/definitions/Artist" },
+		 },
+		"required": ["AlbumID", "Title", "Artist"]
+	},
+
+"Genre":{
+		"type": "object",
+		"properties": {
+			"GenreId":{ "type": "integer" },
+			"Name":{ "type": "string" },
+		 },
+		"required": ["GenreId", "Name"]
+	},
+"MediaType":{
+		"type": "object",
+		"properties": {
+			"MediaTypeId":{ "type": "integer" },
+			"Name":{ "type": "string" },
+		 },
+		"required": ["MediaTypeId", "Name"]
+	},
+"Track":{
+		"type": "object",
+		"properties": {
+			"TackID":{ "type": "integer" },
+			"Name":{ "type": "string" },
+			"Album":{ "$ref": "#/definitions/Album" },
+			"MediaType":{ "$ref": "#/definitions/MediaType" },
+			"Genre":{ "$ref": "#/definitions/Genre" },
+			"Composer":{ "type": "string" },
+			"Millisenconds":{ "type": "integer" },
+			"bytes":{ "type": "integer" },
+			"UnitPrice":{ "type": "number" },
+		 },
+		"required": ["TrackID", "Name", "Album","MediaType","Genre","UnitPrice"]
+	},
+"Employee":{
+		"type": "object",
+		"properties": { "EmployeeID":{ "type":"integer" },
+				"Firstname":{ "type": "string" },
+				"Lastname":{ "type": "string" },
+				"Title":{ "type": "string" },
+				"ReportsTo":{ "$ref": "#/definitions/Employee" },
+				"BirthDate":{ "type": "string", 
+					      "format": "date-time"
+					    },
+				"HireDate":{ "type": "string", 
+					      "format": "date-time"
+					    },
+				"Address.Street":{ "type": "string" },
+				"Address.City":{ "type": "string" },
+				"Address.State":{ "type": "string" },
+				"Address.Country":{ "type": "string" },
+				"Address.PostalCode":{ "type": "string" },
+				"Phone":{ "type": "string",
+					  "pattern": "^([+]?\d{1,3}[.-\s]?)?(\d{3}[.-]?){2}\d{4}$"
+					}
+				"Fax":{ "type": "string",
+					  "pattern": "^([+]?\d{1,3}[.-\s]?)?(\d{3}[.-]?){2}\d{4}$"
+					},
+				"Email":{ "type": "string" 
+					  "pattern": "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+					}
+		},
+		"required": ["EmployeeID", "Firstname", "Lastname", "HireDate", "Address.City","Address.Country", "PostalCode", "Phone", "Email"]
+	},
+"Customer":{
+		"type": "object",
+		"properties": { "CustomerID":{ "type":"integer" },
+				"Firstname":{ "type": "string" },
+				"Lastname":{ "type": "string" },
+				"Company":{ "type": "string" },
+				"Address.Street":{ "type": "string" },
+				"Address.City":{ "type": "string" },
+				"Address.State":{ "type": "string" },
+				"Address.Country":{ "type": "string" },
+				"Address.PostalCode":{ "type": "string" },
+				"Phone":{ "type": "string",
+					  "pattern": "^([+]?\d{1,3}[.-\s]?)?(\d{3}[.-]?){2}\d{4}$"
+					}
+				"Fax":{ "type": "string",
+					  "pattern": "^([+]?\d{1,3}[.-\s]?)?(\d{3}[.-]?){2}\d{4}$"
+					},
+				"Email":{ "type": "string" 
+					  "pattern": "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+					},
+				"SupportRep":{ "$ref": "#/definitions/Employee" }
+		},
+		"required": ["CustomerID", "Firstname", "Lastname", "Address.City", "Address.Country", "Phone", "Email"]
+	},
+"Playlist":{
+		"type": "object",
+		"properties": { 
+			"PlaylistID":{ "type": "integer" },
+			"Name":{ "type": "string" },
+			"PlaylistTrack":{
+					"type": "array",
+					"items": { 
+						"$ref": "#/definitions/Track"
+					}
+			},			
+		},
+		"required": ["PlaylistID", "Name"]
+	},
+
+"Invoice":{
+		"type": "object",
+		"properties": {
+			"InvoiceID":{ "type":"integer" },
+			"Customer": { "$ref": "#/definitions/Customer" },
+			"InvoiceDate":{ "type":"string" ,
+					"format": "date-time" }
+			"BillingAddress.Street":{ "type": "string" },
+			"BillingAddress.City":{ "type": "string" },
+			"BillingAddress.State":{ "type": "string" },
+			"BillingAddress.Country":{ "type": "string" },
+			"BillingAddress.PostalCode":{ "type": "string" },
+			"Total":{ "type": "number" },
+			"InvoiceLine":{
+				"type": "array",
+				"items" :{
+					"InvoiceLineID":{ "type" : "integer" },
+					"Track":{ "$ref": "#/definitions/Track" },
+					"Quantity":{ "type" : "number" },
+					"additionalItems": false
+				}
+			}
+		 }, 
+		"required": ["InvoiceID","Customer","BillingAddress","Total"]
+	}
+
+	}
+}
